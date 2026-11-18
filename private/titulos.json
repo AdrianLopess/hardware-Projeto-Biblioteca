@@ -1,0 +1,143 @@
+
+{
+  "biblioteca": {
+    "nome": "Biblioteca Central",
+    "livros": [
+      {
+        "id": "1",
+        "nome": "Dom Casmurro",
+        "data_publicacao": "1899-01-01",
+        "autores": ["Machado de Assis"],
+        "editora": "Garnier",
+        "premiacoes": [],
+        "copias_disponiveis": 5
+      },
+      {
+        "id": "2",
+        "nome": "O Senhor dos Anéis: A Sociedade do Anel",
+        "data_publicacao": "1954-07-29",
+        "autores": ["J. R. R. Tolkien"],
+        "editora": "Allen & Unwin",
+        "premiacoes": ["Prêmio Internacional de Fantasia (1957)"],
+        "copias_disponiveis": 8
+      },
+      {
+        "id": "3",
+        "nome": "1984",
+        "data_publicacao": "1949-06-08",
+        "autores": ["George Orwell"],
+        "editora": "Secker & Warburg",
+        "premiacoes": ["Prometheus Hall of Fame Award (1984)"],
+        "copias_disponiveis": 4
+      },
+      {
+        "id": "4",
+        "nome": "O Pequeno Príncipe",
+        "data_publicacao": "1943-04-06",
+        "autores": ["Antoine de Saint-Exupéry"],
+        "editora": "Reynal & Hitchcock",
+        "premiacoes": [],
+        "copias_disponiveis": 12
+      },
+      {
+        "id": "5",
+        "nome": "Harry Potter e a Pedra Filosofal",
+        "data_publicacao": "1997-06-26",
+        "autores": ["J. K. Rowling"],
+        "editora": "Bloomsbury",
+        "premiacoes": ["Nestlé Smarties Book Prize (1997)"],
+        "copias_disponiveis": 10
+      },
+      {
+        "id": "6",
+        "nome": "A Revolução dos Bichos",
+        "data_publicacao": "1945-08-17",
+        "autores": ["George Orwell"],
+        "editora": "Secker & Warburg",
+        "premiacoes": [],
+        "copias_disponiveis": 6
+      },
+      {
+        "id": "7",
+        "nome": "Cem Anos de Solidão",
+        "data_publicacao": "1967-05-30",
+        "autores": ["Gabriel García Márquez"],
+        "editora": "Editorial Sudamericana",
+        "premiacoes": ["Prêmio Nobel de Literatura (1982)"],
+        "copias_disponiveis": 3
+      },
+      {
+        "id": "8",
+        "nome": "O Hobbit",
+        "data_publicacao": "1937-09-21",
+        "autores": ["J. R. R. Tolkien"],
+        "editora": "George Allen & Unwin",
+        "premiacoes": ["Carnegie Medal (1937)"],
+        "copias_disponiveis": 7
+      },
+      {
+        "id": "9",
+        "nome": "Orgulho e Preconceito",
+        "data_publicacao": "1813-01-28",
+        "autores": ["Jane Austen"],
+        "editora": "T. Egerton",
+        "premiacoes": [],
+        "copias_disponiveis": 5
+      },
+      {
+        "id": "10",
+        "nome": "A Menina que Roubava Livros",
+        "data_publicacao": "2005-03-14",
+        "autores": ["Markus Zusak"],
+        "editora": "Picador",
+        "premiacoes": ["Prêmio Michael L. Printz (2007)"],
+        "copias_disponiveis": 9
+      },
+      {
+        "id": "11",
+        "nome": "Ensaio Sobre a Cegueira",
+        "data_publicacao": "1995-01-01",
+        "autores": ["José Saramago"],
+        "editora": "Editorial Caminho",
+        "premiacoes": ["Prêmio Nobel de Literatura (1998)"],
+        "copias_disponiveis": 4
+      },
+      {
+        "id": "12",
+        "nome": "O Código Da Vinci",
+        "data_publicacao": "2003-03-18",
+        "autores": ["Dan Brown"],
+        "editora": "Doubleday",
+        "premiacoes": [],
+        "copias_disponiveis": 11
+      },
+      {
+        "id": "13",
+        "nome": "Capitães da Areia",
+        "data_publicacao": "1937-01-01",
+        "autores": ["Jorge Amado"],
+        "editora": "José Olympio",
+        "premiacoes": [],
+        "copias_disponiveis": 6
+      },
+      {
+        "id": "14",
+        "nome": "A Metamorfose",
+        "data_publicacao": "1915-10-01",
+        "autores": ["Franz Kafka"],
+        "editora": "Kurt Wolff Verlag",
+        "premiacoes": [],
+        "copias_disponiveis": 3
+      },
+      {
+        "id": "15",
+        "nome": "O Alquimista",
+        "data_publicacao": "1988-01-01",
+        "autores": ["Paulo Coelho"],
+        "editora": "HarperCollins",
+        "premiacoes": [],
+        "copias_disponiveis": 8
+      }
+    ]
+  }
+}

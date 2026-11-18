@@ -1,0 +1,23 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    display: grid;
+    grid-template-areas: "header header" "main main" "footer footer";
+    grid-template-columns: minmax(0, 4fr) minmax(0, 1fr);
+    grid-template-rows: 10% auto 5%;
+}
+header{
+    display: flex;
+    background-color: lightgrey;
+}
+main{
+    display: flex;
+    background-color: beige;
+}
+footer{
+    display: flex;
+    background-color: blanchedalmond;
+}
