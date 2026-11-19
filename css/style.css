@@ -8,16 +8,20 @@ body{
     grid-template-areas: "header header" "main main" "footer footer";
     grid-template-columns: minmax(0, 4fr) minmax(0, 1fr);
     grid-template-rows: 10% auto 5%;
+    height: calc(100vh / 1);
 }
 header{
     display: flex;
+    grid-area: header;
     background-color: lightgrey;
 }
 main{
     display: flex;
+    grid-area: main;
     background-color: beige;
 }
 footer{
     display: flex;
+    grid-area: footer;
     background-color: blanchedalmond;
 }

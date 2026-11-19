@@ -8,7 +8,7 @@ const criaPagina = ()=>{
     busca.id="formBusca";
     let buscaTexto = document.createElement('input');
     buscaTexto.type="text";
-    buscaTexto.name="buscaTitulo"
+    buscaTexto.name="buscaTexto"
     buscaTexto.placeholder="Digite o nome de um livro";
     let buscaButton = document.createElement('input');
     buscaButton.type="submit";
@@ -16,18 +16,30 @@ const criaPagina = ()=>{
     busca.append(buscaTexto, buscaButton);
     busca.addEventListener("submit", (e)=>{
         e.preventDefault();
-        buscarTitulo(busca.buscarTitulo.value);
+        buscarTitulo(busca.buscaTexto.value);
     })
+    header.append(busca);
     item = document.createElement('div');
     item.id="iconeAutenticacao";
     header.append(item);
 
     const footer = document.createElement('footer');
     document.body.append(header, footer);
+
     imprimeTitulos();
+    imprimeFavoritos();
 }
 const buscarTitulo = (titulo)=>{
-    console.log(titulo);
+    if(titulo.trim() == ""){
+        imprimeTitulos();
+        return;
+    }
+    if(!ocalStorage.getItem("titulos")){
+        console.log("nao foi possivel acessar o acervo");
+        return;
+    }
+    let titulos = JSON.parse(localStorage.getItem("titulos"));
+    console.log(titulos);
 }
 const imprimeTitulos = ()=>{
     if(document.querySelector("#listaTitulos")){
@@ -35,10 +47,107 @@ const imprimeTitulos = ()=>{
     }
     if(localStorage.getItem("titulos")){
         const titulos = JSON.parse(localStorage.getItem("titulos"));
-        const listaTitulos = document.createElement('div');
-        listaTitulos.id="listaTitulos";
-        if(document.body.classList.contains)
+        if(titulos.length > 0){
+            const listaTitulos = document.createElement('div');
+            listaTitulos.id="listaTitulos";
+            document.body.insertBefore(listaTitulos, document.querySelector("header").nextSibling)
+            if(!document.body.classList.contains('docComTitulos')){
+                document.body.classList.add("docComTitulos");
+            }
+            titulos.forEach((element)=>{
+                const item = document.createElement('div');
 
+                let itemDiv = document.createElement("div");
+                let span = document.createElement("span");
+                span.textContent=element.nome;
+                span.classList.add("tituloLivro")
+                itemDiv.append(span);
+                item.append(itemDiv);
+
+                itemDiv = document.createElement("div");
+                span = document.createElement("span");
+                span.textContent="Data de publicação: ";
+                itemDiv.append(span);
+                span = document.createElement("span");
+                span.textContent=element.data_publicacao;
+                itemDiv.append(span);
+                item.append(itemDiv);
+
+                itemDiv = document.createElement("div");
+                span = document.createElement("span");
+                span.textContent="Autor(es): ";
+                itemDiv.append(span);
+                span = document.createElement("span");
+                const autores = (element)=>{
+                    if(element.autores.length > 1){
+                        const nomes = element.autores;
+                        return nomes.join(', ');
+                    }else{
+                        return element.autores[0];
+                    }
+                }
+                span.textContent=`${autores(element)}`;
+                itemDiv.append(span);
+                item.append(itemDiv);
+
+
+                if(element.premiacoes.length > 0){
+                    itemDiv = document.createElement("div");
+                    span = document.createElement("span");
+                    span.textContent="Premiacoes: ";
+                    itemDiv.append(span);
+                    span = document.createElement("span");
+                    const premiacoes = (element)=>{
+                        if(element.premiacoes.length > 1){
+                            const nomes = element.premiacoes;
+                            return nomes.join(', ');
+                        }else{
+                            return element.premiacoes[0];
+                        }
+                    }
+                    span.textContent=`${premiacoes(element)}`;
+                    console.log(span);
+                    itemDiv.append(span);
+                    item.append(itemDiv);
+                }
+
+                itemDiv = document.createElement("div");
+                span = document.createElement("span");
+                span.textContent="Editora: ";
+                itemDiv.append(span);
+                span = document.createElement("span");
+                span.textContent=element.editora;
+                itemDiv.append(span);
+                item.append(itemDiv);
+
+                itemDiv = document.createElement("div");
+                span = document.createElement("a");
+                span.textContent = "Empréstimo";
+                span.href="#";
+                span.classList.add("botaoEmprestimo");
+                span.addEventListener("click", (e)=>{
+                    e.preventDefault();
+                    emprestimo(element);
+                })
+                itemDiv.append(span);
+                item.append(itemDiv);
+
+                itemDiv = document.createElement("div");
+                span = document.createElement("a");
+                span.textContent = "Favoritar";
+                span.href="#";
+                span.classList.add("botaoFavorito");
+                span.addEventListener("click", (e)=>{
+                    e.preventDefault();
+                    addFavorito(element);
+                })
+                itemDiv.append(span);
+                item.append(itemDiv);
+
+                listaTitulos.append(item);
+            })
+            
+        }
         console.log(titulos);
     }else{
         console.log("nao foi possivel acessar o acervo");
@@ -59,7 +168,7 @@ const imprimeFavoritos = ()=>{
             favHeader.textContent="Lista de Favoritos";
             listaFav.append(favHeader);
 
-            if(!document.body.contains('docComFav')){
+            if(!document.body.classList.contains('docComFav')){
                 document.body.classList.add("docComFav");
             }
             favoritos.forEach((element) => {
@@ -68,6 +177,7 @@ const imprimeFavoritos = ()=>{
                 let itemDiv = document.createElement("div");
                 let span = document.createElement("span");
                 span.textContent=element.nome;
+                span.classList.add("tituloLivro")
                 itemDiv.append(span);
                 item.append(itemDiv);
 
@@ -85,14 +195,15 @@ const imprimeFavoritos = ()=>{
                 span.textContent="Autor(es): ";
                 itemDiv.append(span);
                 span = document.createElement("span");
-                span.textContent=`${(element)=>{
+                const autores = (element)=>{
                     if(element.autores.length > 1){
                         const nomes = element.autores;
                         return nomes.join(', ');
                     }else{
                         return element.autores[0];
                     }
-                }}`;
+                }
+                span.textContent=`${autores(element)}`;
                 console.log(span);
                 itemDiv.append(span);
                 item.append(itemDiv);
@@ -103,14 +214,15 @@ const imprimeFavoritos = ()=>{
                     span.textContent="Premiacoes: ";
                     itemDiv.append(span);
                     span = document.createElement("span");
-                    span.textContent=`${(element)=>{
+                    const premiacoes = (element)=>{
                         if(element.premiacoes.length > 1){
                             const nomes = element.premiacoes;
                             return nomes.join(', ');
                         }else{
                             return element.premiacoes[0];
                         }
-                    }}`;
+                    }
+                    span.textContent=`${premiacoes(element)}`;
                     console.log(span);
                     itemDiv.append(span);
                     item.append(itemDiv);
@@ -125,10 +237,22 @@ const imprimeFavoritos = ()=>{
                 itemDiv.append(span);
                 item.append(itemDiv);
 
+
+                itemDiv = document.createElement("div");
+                span = document.createElement("a");
+                span.href= "#"
+                span.textContent = "Remover";
+                itemDiv.append(span);
+                span.addEventListener("click", (e)=>{
+                    e.preventDefault();
+                    rmvFavorito(element);
+                })
+                item.append(itemDiv)
+
                 listaFav.append(item);
             });
+
         }
-        console.log(favoritos);
     }else{
         if(document.body.classList.contains("docComFav")){
             document.body.classList.remove('docComFav');
@@ -144,7 +268,66 @@ const imprimeEmprestimos = ()=>{
         console.log("nao foi possivel acessar os emprestimos");
     }
 }
-const guardarTitulos = ()=>{
+const guardarTitulos = (dados)=>{
+    if(Array.isArray(dados)){
+        localStorage.setItem('titulos', JSON.stringify(dados));
+        console.log(JSON.parse(localStorage.getItem("titulos")));
+        return;
+    }
+    console.log("as informacoes fornecidas nao sao um array");
+}
+const lerTitulos = async ()=>{
+    const resposta = await fetch("../private/titulos.json")
+    let dados = await resposta.json();
+    dados = Object.entries(dados);
+    dados = dados[0][1].livros;
+    guardarTitulos(dados);
+    
+}
+const lerUsuarios = async()=>{
+    const resposta = await fetch("../private/usuarios.json");
+    let dados = await resposta.json();
+    dados = Object.entries(dados);
+    console.log(dados);
+    dados = dados[0];
+    console.log(dados);
+}
+const cadastrarUsuario = async ()=>{
 
 }
+const addFavorito = (element) =>{
+    console.log(element);
+        let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+        console.log(favoritos);
+        if(!Array.isArray(favoritos)){
+            favoritos = [favoritos];
+            console.log(favoritos)
+        }
+        if(favoritos.some(livro => livro.id == element.id)){
+            console.log("livro ja existe na lista de favoritos");
+            return;
+        }
+        favoritos.push(element);
+        console.log(favoritos);
+        localStorage.setItem("favoritos", JSON.stringify(favoritos));
+        imprimeFavoritos();
+}
+const rmvFavorito = (element)=>{
+    console.log(element);
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    if(!Array.isArray(favoritos)){
+        favoritos = [favoritos];
+    }
+    favoritos.forEach((livro, index) =>{
+        if(livro.id == element.id){
+            favoritos.splice(index, 1);
+            return;
+        }
+    })
+    console.log(favoritos);
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+    imprimeFavoritos();
+}
 criaPagina();
+lerTitulos();
+lerUsuarios();
