@@ -1,0 +1,16 @@
+{
+    "1":{
+        "nome" : "Dom Casmurro",
+        "usuarios": [
+            {
+                "id": 1, 
+                "nome" : "Adrian",
+                "email" : "adrian@gmail.com", 
+                "data_retirada" : "2026-02-03",
+                "data_devolucao_prevista" : "2026-04-01",
+                "data_devolucao_efetiva" : " ",
+                "situacao" : "atrasado"
+            }
+        ]
+    }
+}

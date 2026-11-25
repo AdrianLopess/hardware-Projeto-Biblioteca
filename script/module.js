@@ -260,41 +260,6 @@ const imprimeFavoritos = ()=>{
         console.log("nao foi possivel encontrar a lista de favoritos");
     }
 }
-const imprimeEmprestimos = ()=>{
-    if(localStorage.getItem('emprestimos')){
-        const emprestimos = JSON.parse(localStorage.getItem("emprestimos"));
-        console.log(emprestimos);
-    }else{
-        console.log("nao foi possivel acessar os emprestimos");
-    }
-}
-const guardarTitulos = (dados)=>{
-    if(Array.isArray(dados)){
-        localStorage.setItem('titulos', JSON.stringify(dados));
-        console.log(JSON.parse(localStorage.getItem("titulos")));
-        return;
-    }
-    console.log("as informacoes fornecidas nao sao um array");
-}
-const lerTitulos = async ()=>{
-    const resposta = await fetch("../private/titulos.json")
-    let dados = await resposta.json();
-    dados = Object.entries(dados);
-    dados = dados[0][1].livros;
-    guardarTitulos(dados);
-    
-}
-const lerUsuarios = async()=>{
-    const resposta = await fetch("../private/usuarios.json");
-    let dados = await resposta.json();
-    dados = Object.entries(dados);
-    console.log(dados);
-    dados = dados[0];
-    console.log(dados);
-}
-const cadastrarUsuario = async ()=>{
-
-}
 const addFavorito = (element) =>{
     console.log(element);
         let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
@@ -327,6 +292,63 @@ const rmvFavorito = (element)=>{
     console.log(favoritos);
     localStorage.setItem("favoritos", JSON.stringify(favoritos));
     imprimeFavoritos();
+}
+const imprimeEmprestimos = ()=>{
+    if(localStorage.getItem('emprestimos')){
+        const emprestimos = JSON.parse(localStorage.getItem("emprestimos"));
+        console.log(emprestimos);
+    }else{
+        console.log("nao foi possivel acessar os emprestimos");
+    }
+}
+const guardarTitulos = (dados)=>{
+    if(Array.isArray(dados)){
+        localStorage.setItem('titulos', JSON.stringify(dados));
+        console.log(JSON.parse(localStorage.getItem("titulos")));
+        return;
+    }
+    console.log("as informacoes fornecidas nao sao um array");
+}
+const lerTitulos = async ()=>{
+    const resposta = await fetch("../private/titulos.json")
+    let dados = await resposta.json();
+    dados = Object.entries(dados);
+    dados = dados[0][1].livros;
+    guardarTitulos(dados);
+}
+const lerUsuarios = async()=>{
+    const resposta = await fetch("../private/usuarios.json");
+    let dados = await resposta.json();
+    dados = Object.entries(dados);
+    console.log(dados);
+    dados = dados[0][1];
+    console.log(dados);
+    dados.forEach((element) =>{
+        console.log(element);
+    })
+    return dados;
+}
+const lerEmprestimos = async()=>{
+    const resposta = await fetch("../private/emprestimos.json");
+    let dados = Object.entries(dados);
+    console.log(dados);
+    dados = dados[0];
+    console.log(dados)
+    return dados;
+}
+const cadastrarUsuario = async ()=>{
+
+}
+const removerUsuario = ()=>{
+
+}
+const gerenciarAcervo = ()=>{
+
+}
+const 
+ 
+const emprestimo = ()=>{
+    console.log("nao faz nada por enquanto")
 }
 criaPagina();
 lerTitulos();
