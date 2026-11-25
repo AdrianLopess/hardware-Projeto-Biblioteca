@@ -316,18 +316,6 @@ const lerTitulos = async ()=>{
     dados = dados[0][1].livros;
     guardarTitulos(dados);
 }
-const lerUsuarios = async()=>{
-    const resposta = await fetch("../private/usuarios.json");
-    let dados = await resposta.json();
-    dados = Object.entries(dados);
-    console.log(dados);
-    dados = dados[0][1];
-    console.log(dados);
-    dados.forEach((element) =>{
-        console.log(element);
-    })
-    return dados;
-}
 const lerEmprestimos = async()=>{
     const resposta = await fetch("../private/emprestimos.json");
     let dados = Object.entries(dados);
@@ -336,19 +324,16 @@ const lerEmprestimos = async()=>{
     console.log(dados)
     return dados;
 }
-const cadastrarUsuario = async ()=>{
-
-}
 const removerUsuario = ()=>{
 
 }
 const gerenciarAcervo = ()=>{
 
 }
-const 
  
 const emprestimo = ()=>{
-    console.log("nao faz nada por enquanto")
+    console.log("nao faz nada por enquanto");
+    window.location.href ="pages/auth.html";
 }
 criaPagina();
 lerTitulos();

@@ -10,15 +10,23 @@ const criaPagina = ()=>{
 
     const footer = document.createElement('footer');
     document.body.append(header, footer);
+    imprimeForms();
 }
 const imprimeForms = ()=>{
-    let form = document.createElement("form");
     if(!document.querySelector("main")){
         const main = document.createElement("main");
-        document.body.appendBefore(main, document.querySelector("footer"));
+        document.body.insertBefore(main, document.querySelector("footer"));
     }
     const main = document.querySelector("main");
-
+    let defJson = document.createElement("button");
+    defJson.textContent= "Definir arquivo json";
+    defJson.addEventListener("click", (e)=>{
+        e.preventDefault();
+        selecionarArquivo();
+    })
+    main.append(defJson);
+    
+    let form = document.createElement("form");
     let label = document.createElement("label");
     label.textContent= "Nome:";
     label.for = "cadNome"
@@ -49,6 +57,7 @@ const imprimeForms = ()=>{
     input = document.createElement("input");
     input.type="password";
     input.required = true;
+    input.minLength = "6";
     input.name = "senha";
     input.id = "cadSenha";
     input.placeholder = "Defina a senha"
@@ -57,49 +66,54 @@ const imprimeForms = ()=>{
 
     let button = document.createElement("button");
     button.textContent= "Mostrar senha"
+    button.id="cadShow"
     button.addEventListener("click", (e)=>{
         e.preventDefault();
-        input.classList.toggle("mostrarSenha");
+        const senha = document.querySelector("#cadSenha")
+        if(senha.type === "password"){
+            senha.type = "text";
+        }else{
+            senha.type = "password"
+        }
     })
     label.append(button);
 
-    label = document.createElement("label");
-    label.textContent= "Adicionar foot de perfil:";
-    label.for = "cadFoto"
-    input = document.createElement("input");
-    input.type="file";
-    input.name = "email";
-    input.id = "cadFoto";
-    input.accept = ".jpeg .jpg .png .svg";
-    label.append(input);
-    form.append(label);
-
     let div = document.createElement("div");
-    main.append(div);
-    div.append(form);
+    form.append(div);
 
     input = document.createElement("input");
     input.type="submit";
     input.value = "Cadastrar";
+    input.classList.add("btnAuth");
+    div.append(input);
     
     input = document.createElement("input");
     input.type="reset";
     input.value = "Limpar";
+    input.classList.add("btnLimpar")
+    div.append(input);
 
     form.addEventListener("submit", (e)=>{
         e.preventDefault();
         const nome = document.querySelector("#cadNome");
         const email = document.querySelector("#cadEmail");
         const senha = document.querySelector("#cadSenha");
-        const foto = document.querySelector("#cadFoto");
+        senha.type = "text";
         const dados = {
             "nome": nome.value, 
             "email": email.value, 
-            "senha": `${senha.type="text"; senha.value}`,
-            "foto" : foto.
+            "senha": senha.value
         }
-        cadastrarUsuario()
+        cadastrarUsuario([dados])
+        console.log(dados);
+        const form = document.forms[0];
+        form.reset();
     })
+    input.addEventListener("click", (e)=>{
+        e.preventDefault();
+        form.reset();
+    })
+    main.append(form);
 
 
     form = document.createElement("form");
@@ -118,13 +132,14 @@ const imprimeForms = ()=>{
 
     label = document.createElement("label");
     label.textContent= "Senha:";
-    label.for = "cadSenha"
+    label.for = "authSenha"
     input = document.createElement("input");
     input.type="password";
+    input.minLength = "6";
     input.required = true;
     input.name = "senha";
-    input.id = "cadSenha";
-    input.placeholder = "Defina a senha"
+    input.id = "authSenha";
+    input.placeholder = "Digite a senha"
     label.append(input);
     form.append(label);
 
@@ -132,7 +147,107 @@ const imprimeForms = ()=>{
     button.textContent= "Mostrar senha"
     button.addEventListener("click", (e)=>{
         e.preventDefault();
-        input.classList.toggle("mostrarSenha");
+        if(input.type === "password"){
+            input.type = "text";
+        }else{
+            input.type = "password"
+        }
     })
     label.append(button);
+    form.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        autenticarUsuario();
+    })
+
+    div = document.createElement("div");
+    form.append(div);
+
+    input = document.createElement("input");
+    input.type="submit";
+    input.value = "Autenticar";
+    input.classList.add("btnAuth")
+    div.append(input);
+    
+    input = document.createElement("input");
+    input.type="reset";
+    input.value = "Limpar";
+    input.classList.add("btnLimpar");
+    div.append(input);
+
+    main.append(form);
 }
+const cadastrarUsuario = async (dados) => {
+
+    if (!Array.isArray(dados)) return;
+
+    const resultado = await lerUsuarios();
+
+    if (!resultado) return;
+
+    const usuarios = resultado.usuarios;
+    const arquivo = resultado.arquivo;
+
+    const existe = usuarios.some(
+        usuario => usuario.email === dados[0].email
+    );
+
+    if (existe) {
+        console.log("Email já existe!");
+        return;
+    }
+
+    const maiorId = usuarios.reduce(
+        (maior, usuario) =>
+            Math.max(maior, Number(usuario.id) || 0),
+        0
+    );
+
+    dados[0].id = maiorId + 1;
+
+    usuarios.push(dados[0]);
+
+    await salvarUsuarios(arquivo, usuarios);
+
+    console.log("Usuário cadastrado!", usuarios);
+};
+const lerUsuarios = async () => {
+    if (!arquivoUsuarios) {
+        console.log("Arquivo ainda não selecionado!");
+        return null;
+    }
+
+    const arquivo = await arquivoUsuarios.getFile();
+
+    const conteudo = await arquivo.text();
+
+    return JSON.parse(conteudo);
+};
+const salvarUsuarios = async (usuarios) => {
+    const gravacao = await arquivoUsuarios.createWritable();
+
+    await gravacao.write(
+        JSON.stringify(usuarios, null, 4)
+    );
+
+    await gravacao.close();
+};
+criaPagina();
+let arquivoUsuarios = null;
+
+const selecionarArquivo = async () => {
+    try {
+        [arquivoUsuarios] = await window.showOpenFilePicker({
+            types: [{
+                description: "Arquivo JSON",
+                accept: {
+                    "application/json": [".json"]
+                }
+            }]
+        });
+
+        console.log("Arquivo selecionado com sucesso!");
+
+    } catch (erro) {
+        console.error("Erro ao selecionar arquivo:", erro);
+    }
+};
