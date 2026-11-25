@@ -1,20 +1,20 @@
 {
     "usuarios": [
         {
-            "id": 1, 
+            "id": "1", 
             "nome": "Adrian", 
             "adm": false, 
             "email": "adrian@gmail.com", 
             "senha": "adrian", 
-            "pendencias": 0
+            "pendencias": "0"
         },
         {
-            "id" : 2,
+            "id" : "2",
             "nome" : "Jorge",
             "adm" : false,
             "email" : "jorge@gmail.com",
             "senha" : "jorge1",
-            "pendencias" : 0
+            "pendencias" : "0"
         }
     ]
 }

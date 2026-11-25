@@ -313,16 +313,18 @@ const lerTitulos = async ()=>{
     const resposta = await fetch("../private/titulos.json")
     let dados = await resposta.json();
     dados = Object.entries(dados);
-    dados = dados[0][1].livros;
+    dados = dados.livros;
+    console.log()
     guardarTitulos(dados);
 }
 const lerEmprestimos = async()=>{
     const resposta = await fetch("../private/emprestimos.json");
-    let dados = Object.entries(dados);
+    let dados = await resposta.json();
+    dados = Object.entries(dados);
     console.log(dados);
     dados = dados[0];
     console.log(dados)
-    return dados;
+    return dados.emprestimos;
 }
 const removerUsuario = ()=>{
 

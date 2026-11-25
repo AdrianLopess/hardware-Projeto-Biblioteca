@@ -231,9 +231,6 @@ const salvarUsuarios = async (usuarios) => {
 
     await gravacao.close();
 };
-criaPagina();
-let arquivoUsuarios = null;
-
 const selecionarArquivo = async () => {
     try {
         [arquivoUsuarios] = await window.showOpenFilePicker({
@@ -244,10 +241,13 @@ const selecionarArquivo = async () => {
                 }
             }]
         });
-
+        
         console.log("Arquivo selecionado com sucesso!");
-
+        
     } catch (erro) {
         console.error("Erro ao selecionar arquivo:", erro);
     }
 };
+let arquivoUsuarios = null;
+
+criaPagina();
